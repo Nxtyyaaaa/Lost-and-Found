@@ -1,35 +1,123 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import {
+  HomeLayout,
+  Error,
+  Landing,
+  Login,
+  Register,
+  VerifyEmail,
+  ResetPassword,
+  About,
+  Items,
+  Contact,
+  Profile,
+  SingleItem,
+} from './pages';
+import {
+  ErrorElement,
+  ProfileItems,
+  Resolved,
+} from './components';
+import { loader as verifyEmailLoader } from './pages/VerifyEmail';
+import { loader as resetPasswordLoader } from './pages/ResetPassword';
+import { loader as landingLoader } from './pages/Landing';
+import { loader as singleItemLoader } from './pages/SingleItem';
+import { loader as itemsLoader } from './pages/Items';
+import { loader as profileLoader } from './pages/Profile';
+import { loader as resolvedLoader } from './components/Resolved';
+import { action as loginAction } from './pages/Login';
+import { action as registerAction } from './pages/Register';
+import { action as resetPasswordAction } from './pages/ResetPassword';
+import { action as profileAction } from './components/ProfileCard';
+import { store } from './store';
+import React from 'react';
 
-function App() {
-  const [count, setCount] = useState(0)
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <HomeLayout />,
+    errorElement: <Error />,
+    children: [
+      {
+        index: true,
+        element: <Landing />,
+        errorElement: <ErrorElement />,
+        loader: landingLoader,
+      },
+      {
+        path: '/about',
+        element: <About />,
+        errorElement: <ErrorElement />,
+      },
+      {
+        path: '/items',
+        element: <Items />,
+        errorElement: <ErrorElement />,
+        loader: itemsLoader,
+      },
+      {
+        path: '/contact',
+        element: <Contact />,
+        errorElement: <ErrorElement />,
+      },
+      {
+        path: '/items/:id',
+        element: <SingleItem />,
+        loader: singleItemLoader,
+        errorElement: <ErrorElement />,
+      },
+    ],
+  },
+  {
+    path: '/login',
+    element: <Login />,
+    errorElement: <Error />,
+    action: loginAction(store),
+  },
+  {
+    path: 'register',
+    element: <Register />,
+    errorElement: <Error />,
+    action: registerAction,
+  },
+  {
+    path: '/reset-password',
+    element: <ResetPassword />,
+    errorElement: <Error />,
+    loader: resetPasswordLoader,
+    action: resetPasswordAction,
+  },
+  {
+    path: 'verify-email',
+    element: <VerifyEmail />,
+    errorElement: <Error />,
+    loader: verifyEmailLoader,
+  },
+  {
+    path: '/profile',
+    element: <Profile />,
+    errorElement: <Error />,
+    loader: profileLoader,
+    children: [
+      {
+        index: true,
+        element: <Resolved />,
+        errorElement: <ErrorElement />,
+        loader: resolvedLoader,
+      },
+      {
+        path: '/profile/items',
+        element: <ProfileItems />,
+        errorElement: <ErrorElement />,
+        loader: profileLoader,
+        action: profileAction,
+      },
+    ],
+  },
+]);
 
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+const App: React.FC = () => {
+  return <RouterProvider router={router} />;
+};
 
-export default App
+export default App;
