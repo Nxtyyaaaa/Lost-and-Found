@@ -1,0 +1,6 @@
+const categories =["Electronics","Clothing","Accessories","Books","Stationery","Bags and Luggage","Sports Equipment","Personal Care Items","Musical Instruments","Gadgets","Personal Documents","Office Supplies","Medication","Miscellaneous"];
+
+const locations =['Open Air Theatre (OAT)','NIT Main Gate','Guest House',"Teacher's Flat",'NIT Market','Senate Hall','Amul Canteen',"Moxie's Grill",'Walk In','Golden Jubilee','Sports Complex','ED Hall','Lecture Hall','Old Administration Block','AE Lawns','Electrical Department','Mechanical Department','Civil Department','Applied Mechanics Block','MBA/MCA Department','AB Block','Computer Engineering Department','ECE Department','L-Block',"Siemen's Building",'SAC','Jubilee Hall','Library','CCN','Health Centre','NIT Lake','Girls Hostel','Boys Hostel'];
+
+const branches =['Computer Engineering','Information Technology','Electronics and Telecommunication','Mechanical Engineering','Civil Engineering','Electrical Engineering','Production Engineering'];
+module.exports={categories,locations,branches};
